@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="addOrderItemsFromPricebook">
+    <!--
+        @File        : addOrderItemsFromPricebook.js-meta.xml
+        @Description : Exposition du composant dans un écran Flow (version standard sans logique métier)
+        @Author      : VO2-Group
+        @CreatedOn   : 2025-07-09
+    -->
+
+    <apiVersion>62.0</apiVersion>
+    <isExposed>true</isExposed>
+
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <!-- 🎯 INPUTS -->
+            <property name="inputCatalogPriceBookEntriesJson" type="String" label="JSON des PBE à afficher" />
+            <property name="orderId" type="String" label="ID de la commande associée" />
+            <property name="enableSearch" type="Boolean" label="Activer la barre de recherche ?" default="false" />
+            <property name="pageSizeInput" type="Integer" label="Nombre d'enregistrements par page" default="10" />
+
+            <!-- 📤 OUTPUTS -->
+            <property name="outputDeltaJson" type="String" label="Résultat des lignes sélectionnées" role="outputOnly" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

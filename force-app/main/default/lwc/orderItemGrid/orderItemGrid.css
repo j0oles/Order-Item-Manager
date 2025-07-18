@@ -1,0 +1,131 @@
+/* ==========================================================================
+   ⚙️ GLOBAL ALIGNMENTS
+   ==========================================================================
+*/
+.text-left  { text-align: left; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-contrast { color: #2e2e2e; }
+
+/* ==========================================================================
+   📦 TABLE WRAPPER
+   ==========================================================================
+*/
+.custom-table-wrapper {
+    border: 1px solid #e5e5e5;
+    border-radius: 0.25rem;
+    overflow-x: auto;
+    background: white;
+}
+
+/* ==========================================================================
+   ✏️ DISCOUNT EDIT
+   ==========================================================================
+*/
+.discount-input {
+    max-width: 5rem;
+}
+
+/* ==========================================================================
+   ➕➖ QUANTITY SELECTOR
+   ==========================================================================
+*/
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+.quantity-selector lightning-button-icon[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.quantity-selector .slds-text-color_weak {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ==========================================================================
+   🖱️ ACTIONS
+   ==========================================================================
+*/
+.actions-inline {
+    display: flex;
+    gap: 0.25rem;
+}
+.actions-menu {
+    display: none;
+}
+
+/* ==========================================================================
+   🧾 TABLE CELL STYLING
+   ==========================================================================
+*/
+.slds-table td,
+.slds-table th {
+    vertical-align: middle;
+}
+.slds-table td[data-label='Prix unitaire'] { text-align: left; padding-right: 1rem; }
+.slds-table td[data-label='Quantité'],
+.slds-table td[data-label='Total'] { text-align: center; }
+.slds-table td[data-label='Actions'] { text-align: right; white-space: nowrap; }
+
+/* ==========================================================================
+   🧩 TITLES & HEADERS
+   ==========================================================================
+*/
+th .slds-truncate {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #3e3e3c;
+    line-height: 32px;
+}
+
+/* ==========================================================================
+   🖥️ MODALE
+   ==========================================================================
+*/
+/* ✅ Agrandissement de la modale */
+.large-modal .slds-modal__container {
+        width: 90vw !important;     /* Largeur responsive */
+        max-width: 90vw !important; /* Empêche le fallback Salesforce de limiter la taille */
+        min-height: 80vh;
+    }
+
+
+/* ==========================================================================
+   📱 RESPONSIVE
+   ==========================================================================
+*/
+@media (max-width: 768px) {
+    .slds-text-align_right {
+        text-align: left !important;
+        margin-top: 0.5rem;
+    }
+    .actions-inline {
+        display: none;
+    }
+    .actions-menu {
+        display: block;
+    }
+    .quantity-selector {
+        flex-direction: column;
+        align-items: center;
+    }
+    td[data-label='Quantité'] {
+        min-width: 80px;
+    }
+    td[data-label='Nom'] {
+        min-width: 120px;
+    }
+}
+
+/* ==========================================================================
+   🎯 CONTRAST TEXT
+   ==========================================================================
+*/
+a.slds-text-link:hover {
+    text-decoration: underline;
+}

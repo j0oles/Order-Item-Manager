@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="orderItemGrid">
+    <apiVersion>62.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property 
+                name="flowApiName_addOrderItems" 
+                type="String" 
+                label="Nom API du Flow - Ajouter produit" 
+                required="false" 
+                description="Nom du Flow à appeler pour ajouter un produit." />
+            <property 
+                name="flowApiName_majOrderItems" 
+                type="String" 
+                label="Nom API du Flow - Mettre à jour ligne" 
+                required="false" 
+                description="Nom du Flow à appeler pour mettre à jour une ligne." />
+            <property 
+                name="enableQuantitySelector" 
+                type="Boolean" 
+                label="Activer le sélecteur de quantité ?" 
+                default="true" />
+            <property 
+                name="quantityFieldApiName" 
+                type="String" 
+                label="Nom API du champ Quantité" 
+                required="false" 
+                description="API Name du champ de quantité à modifier (ex: Quantity)." />
+            <property 
+                name="defaultQuantity" 
+                type="Integer" 
+                label="Quantité par défaut (si vide)" 
+                default="1" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

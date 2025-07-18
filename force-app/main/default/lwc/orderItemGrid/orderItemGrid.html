@@ -1,0 +1,168 @@
+<template>
+    <lightning-card title={labels.table_title}>
+        <!-- ✅ HEADER -->
+        <div class="slds-grid slds-wrap slds-grid_vertical-align-center slds-p-horizontal_medium slds-p-vertical_small">
+            <div class="slds-m-right_large slds-grid slds-grid_vertical-align-center slds-m-bottom_xx-small">
+                <lightning-icon icon-name="utility:billing" size="x-small" class="slds-m-right_xx-small text-contrast" alternative-text="Total commande"></lightning-icon>
+                <span class="slds-text-title_bold text-contrast">{labels.orderTotal} : {totalAmount} €</span>
+            </div>
+            <div class="slds-col_bump-left">
+                <lightning-button 
+                    variant="neutral"
+                    label={labels.but_AddProduct}
+                    onclick={handleClick}
+                    disabled={isOrderLocked}>
+                </lightning-button>
+            </div>
+        </div>
+
+        <!-- 🧾 TABLEAU DES PRODUITS -->
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+            <template if:true={hasDisplayRecords}>
+                <div class="slds-table_edit_container custom-table-wrapper">
+                    <table class="slds-table slds-table_cell-buffer slds-no-row-hover" role="grid">
+                        <thead class="slds-theme_shade">
+                            <tr class="slds-line-height_reset">
+                                <th scope="col"><div class="slds-truncate slds-text-title_caps" title={labels.oms_col_Product}>{labels.col_ProductName}</div></th>
+                                <th scope="col"><div class="slds-truncate slds-text-title_caps text-left" title="Prix unitaire">{labels.col_UnitPrice}</div></th>
+                                <th scope="col"><div class="slds-truncate slds-text-title_caps text-center" title="Quantité">{labels.col_Quantity}</div></th>
+                                <th scope="col"><div class="slds-truncate slds-text-title_caps text-center" title="Remise %">{labels.col_Discount}</div></th>
+                                <th scope="col"><div class="slds-truncate slds-text-title_caps text-center" title="Total">{labels.col_OITotal}</div></th>
+                                <th scope="col"><div class="slds-truncate slds-text-title_caps text-right" title="Actions">{labels.col_Actions}</div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={displayRecords} for:item="row">
+                                <tr key={row.Id} class="slds-border_top">
+                                    <td><div class="slds-truncate">{row.ProductName}</div></td>
+                                    <td class="text-left"><div class="slds-truncate">{row.UnitPrice} €</div></td>
+
+                                    <!-- 🔢 Quantité -->
+                                    <td class="text-center">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-align_absolute-center">
+                                            <lightning-button-icon
+                                                icon-name="utility:dash"
+                                                size="medium"
+                                                variant="border"
+                                                title={labels.but_DecreaseQty}
+                                                onclick={handleMinus}
+                                                data-id={row.Id}>
+                                            </lightning-button-icon>
+                                            <span class="slds-m-horizontal_x-small">{row.Quantity}</span>
+                                            <lightning-button-icon
+                                                icon-name="utility:add"
+                                                size="medium"
+                                                variant="border"
+                                                title={labels.but_IncreaseQty}
+                                                onclick={handlePlus}
+                                                data-id={row.Id}>
+                                            </lightning-button-icon>
+                                        </div>
+                                    </td>
+
+                                    <!-- 🎯 Remise -->
+                                    <td class="text-center">
+                                        <template if:true={row.isEditingDiscount}>
+                                            <lightning-input
+                                                type="number"
+                                                variant="label-hidden"
+                                                value={row.Discount__c}
+                                                step="0.1"
+                                                min="0"
+                                                max="100"
+                                                data-id={row.Id}
+                                                onchange={handleDiscountChange}>
+                                            </lightning-input>
+                                        </template>
+                                        <template if:false={row.isEditingDiscount}>
+                                            <div class="slds-grid slds-grid_vertical-align-center slds-align_absolute-center">
+                                                <span class="slds-m-right_xx-small">{row.Discount__c} %</span>
+                                                <lightning-button-icon
+                                                    icon-name="utility:edit"
+                                                    size="x-small"
+                                                    variant="bare"
+                                                    alternative-text={labels.applyDiscount}
+                                                    title={labels.applyDiscount}
+                                                    onclick={handleEditDiscount}
+                                                    data-id={row.Id}>
+                                                </lightning-button-icon>
+                                            </div>
+                                        </template>
+                                    </td>
+
+                                    <!-- 💰 Total -->
+                                    <td class="text-center">{row.TotalPrice} €</td>
+
+                                    <!-- ⚙️ Actions -->
+                                    <td class="slds-text-align_right">
+                                        <div class="slds-button-group" role="group">
+                                            <lightning-button-icon
+                                                icon-name="utility:edit"
+                                                variant="neutral"
+                                                alternative-text={labels.but_ChangePdt}
+                                                title={labels.but_ChangePdt}
+                                                onclick={handleRowUpdate}
+                                                data-id={row.Id}>
+                                            </lightning-button-icon>
+
+                                            <lightning-button-icon
+                                                icon-name="utility:delete"
+                                                variant="border-filled"
+                                                alternative-text={labels.but_CancelPdt}
+                                                title={labels.but_CancelPdt}
+                                                onclick={handleDelete}
+                                                data-id={row.Id}>
+                                            </lightning-button-icon>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+        </div>
+
+        <!-- 💾 BOUTON SAUVEGARDE / ANNULATION -->
+        <template if:true={hasDraft}>
+            <div class="slds-p-around_medium slds-align_absolute-center">
+                <lightning-button 
+                    variant="brand" 
+                    label={labels.save}
+                    class="slds-m-right_small"
+                    onclick={handleSave}>
+                </lightning-button>
+
+                <lightning-button 
+                    variant="neutral" 
+                    label={labels.cancel}
+                    onclick={handleCancelAllChanges}>
+                </lightning-button>
+            </div>
+        </template>
+
+        <!-- 🌊 MODAL FLOW -->
+        <template if:true={showModal}>
+            <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open large-modal">
+                <div class="slds-modal__container">
+                    <button class="slds-button slds-button_icon slds-modal__close"
+                            title="Fermer la fenêtre"
+                            onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                                        alternative-text={labels.close}
+                                        variant="inverse"
+                                        size="small"></lightning-icon>
+                        <span class="slds-assistive-text">{labels.close}</span>
+                    </button>
+                    <lightning-flow
+                        flow-api-name={currentFlowApiName}
+                        flow-input-variables={flowInputVariables}
+                        onstatuschange={handleFlowStatusChange}>
+                    </lightning-flow>
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </lightning-card>
+</template>

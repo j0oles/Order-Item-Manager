@@ -1,0 +1,134 @@
+/* ==========================================================================
+   💡 GLOBAL UTILITY CLASSES
+========================================================================== */
+.text-left  { text-align: left; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+
+.text-contrast {
+    color: #2e2e2e;
+}
+
+/* ==========================================================================
+   📦 TABLE WRAPPER (Contour comme UpsellHelper)
+========================================================================== */
+.custom-table-wrapper {
+    border: 1px solid #e5e5e5;
+    border-radius: 0.25rem;
+    overflow-x: auto;
+    background: white;
+}
+
+/* ==========================================================================
+   🧾 QUANTITY SELECTOR
+========================================================================== */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+
+.quantity-selector lightning-button-icon[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.quantity-increased {
+    color: green;
+    font-weight: bold;
+}
+
+.quantity-decreased {
+    color: red;
+    font-weight: bold;
+}
+
+.quantity-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* ==========================================================================
+   🔒 DISABLED ROWS
+========================================================================== */
+.row-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   ➗ DISCOUNT INPUT
+========================================================================== */
+.discount-input {
+    min-height: 10px;
+    text-align: center;
+}
+
+.discount-cell lightning-input.discount-input {
+    margin-top: 0.3rem;
+    margin-bottom: 0.1rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* ==========================================================================
+   📊 TABLE FORMATTING
+========================================================================== */
+tbody tr,
+thead tr {
+    line-height: 2.25rem;
+}
+
+th {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #3e3e3c;
+}
+
+.slds-table td,
+.slds-table th {
+    vertical-align: middle;
+}
+
+.slds-table td[data-label='Prix unitaire'] {
+    text-align: left;
+    padding-right: 1rem;
+}
+
+.slds-table td[data-label='Quantité'],
+.slds-table td[data-label='Total'] {
+    text-align: center;
+}
+
+.slds-table td[data-label='Actions'] {
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* ==========================================================================
+   📱 RESPONSIVE
+========================================================================== */
+@media (max-width: 768px) {
+    .slds-text-align_right {
+        text-align: left !important;
+        margin-top: 0.5rem;
+    }
+
+    .quantity-selector {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    td[data-label='Quantité'] {
+        min-width: 80px;
+    }
+
+    td[data-label='Nom'] {
+        min-width: 120px;
+    }
+}
